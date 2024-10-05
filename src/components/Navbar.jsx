@@ -10,7 +10,7 @@ function Navbar() {
       </div>
       <div className="navbar-links">
         <Link
-          to="https://github.com/Aditya-Mane007"
+          to="https://github.com/Aditya-Mane007/image-gallery-app"
           target="_blank"
           className="navbar-link"
         >
