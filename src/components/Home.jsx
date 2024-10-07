@@ -1,21 +1,8 @@
 import React, { useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import Bird from "../assets/bird.jpg"
-import { useInView } from "framer-motion"
 
 function Home() {
-  const ref1 = useRef()
-  const ref2 = useRef()
-  const ref3 = useRef()
-
-  const isInView1 = useInView(ref1)
-  const isInView2 = useInView(ref2)
-  const isInView3 = useInView(ref3)
-
-  useEffect(() => {
-    console.log(isInView1, isInView2, isInView3)
-  }, [isInView1, isInView2, isInView3])
-
   const arr = [1, 2, 3, 4, 5, 6]
   return (
     <div className="home">
@@ -60,7 +47,11 @@ export default Home
 const ImageDiv = ({ value }) => {
   return (
     <div>
-      <img src={Bird} alt="" style={{ width: "100%", height: "10rem" }} />
+      <img
+        src={Bird}
+        alt=""
+        style={{ width: "100%", height: "10rem", margin: "1rem 0" }}
+      />
     </div>
   )
 }

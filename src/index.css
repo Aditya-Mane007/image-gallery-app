@@ -4,6 +4,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Roboto Mono", monospace;
+  user-select: none;
 }
 
 :root {
@@ -23,6 +24,7 @@
 }
 .rootLayout .container {
   width: 80%;
+  max-width: 1440px;
   min-height: 100vh;
   margin: auto;
   display: flex;
@@ -148,21 +150,85 @@ p {
 }
 
 .image-collection {
-  margin: 5rem 0;
+  margin: 2rem 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
   gap: 1rem;
 }
 
-.image-collection div {
-  width: 200px;
-  height: 200px;
+.image-collection .image-card {
   background: var(--WHITE);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.image-collection .image-card .imageDiv img {
+  width: 100%;
+  height: 20rem;
+  border-radius: 5px;
+}
+
+.image-collection .image-card .image-owner-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-collection .image-card .image-owner-info div,
+span {
+  width: auto;
+  height: auto;
+}
+
+.image-collection .image-card .image-owner-info .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.image-collection .image-card .image-owner-info .user-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 0.3rem;
+}
+
+.image-collection .image-card .image-owner-info .image-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination .pageCount {
+  margin: 0 1rem;
+  font-size: 1.2rem;
+  color: var(--WHITE);
+}
+
+.catgories-btn {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.catgories-btn button {
+  margin: 0 0.5rem;
+}
+
+.loading {
+  color: var(--WHITE);
+  font-size: 1.2rem;
 }
 
 /* MEDIA QUERIES */
@@ -172,9 +238,10 @@ p {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(1, 1fr);
-    gap: 0.5rem;
+    gap: 1rem;
   }
-  .image-collection div {
+
+  .image-collection .image-card .imageDiv img {
     width: 100%;
     height: 15rem;
   }
@@ -198,11 +265,12 @@ p {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1rem;
   }
-  .image-collection div {
+
+  .image-collection .image-card .imageDiv img {
     width: 100%;
-    height: 15rem;
+    height: 20rem;
   }
 }
 
@@ -235,8 +303,7 @@ p {
     grid-template-rows: repeat(1, 1fr);
     gap: 0.5rem;
   }
-
-  .image-collection div {
+  .image-collection .image-card .imageDiv img {
     width: 100%;
     height: 20rem;
   }

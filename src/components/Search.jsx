@@ -1,62 +1,98 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import ImageCard from "./ImageCard"
+import { FaChevronLeft } from "react-icons/fa6"
+import { FaChevronRight } from "react-icons/fa6"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  getPhotosByCategories,
+  getRandomPhotos,
+  reset,
+} from "../features/imageSlice"
 
 function Search() {
+  const [inputSearch, setInputSearch] = useState("")
+  const dispatch = useDispatch()
+  const {
+    imageCollection,
+    pageNumber,
+    isLoading,
+    isSuccess,
+    isError,
+    message,
+  } = useSelector((state) => state.image)
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(getPhotosByCategories(inputSearch))
+  }
+  useEffect(() => {
+    dispatch(getRandomPhotos())
+
+    return () => {
+      dispatch(reset())
+    }
+  }, [])
   return (
     <div className="searchDiv">
-      <form className="formDiv">
-        <input type="text" placeholder="Search..." />
+      <form className="formDiv" onSubmit={submitHandler}>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={inputSearch}
+          onChange={(e) => setInputSearch(e.target.value)}
+        />
       </form>
+      <div className="catgories-btn">
+        <button
+          className="btn"
+          onClick={() => dispatch(getPhotosByCategories("Mountain"))}
+        >
+          Mountain
+        </button>
+        <button
+          className="btn"
+          onClick={() => dispatch(getPhotosByCategories("Beaches"))}
+        >
+          Beaches
+        </button>
+        <button
+          className="btn"
+          onClick={() => dispatch(getPhotosByCategories("Birds"))}
+        >
+          Birds
+        </button>
+        <button
+          className="btn"
+          onClick={() => dispatch(getPhotosByCategories("Food"))}
+        >
+          Food
+        </button>
+      </div>
       <div className="image-collection">
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
-        <div>8</div>
-        <div>9</div>
-        <div>10</div>
-        <div>11</div>
-        <div>12</div>
-        <div>13</div>
-        <div>14</div>
-        <div>15</div>
-        <div>16</div>
-        <div>17</div>
-        <div>18</div>
-        <div>19</div>
-        <div>20</div>
-        <div>21</div>
-        <div>22</div>
-        <div>23</div>
-        <div>24</div>
-        <div>25</div>
-        <div>26</div>
-        <div>27</div>
-        <div>28</div>
-        <div>29</div>
-        <div>30</div>
-        <div>31</div>
-        <div>32</div>
-        <div>33</div>
-        <div>34</div>
-        <div>35</div>
-        <div>36</div>
-        <div>37</div>
-        <div>38</div>
-        <div>39</div>
-        <div>40</div>
-        <div>41</div>
-        <div>42</div>
-        <div>43</div>
-        <div>44</div>
-        <div>45</div>
-        <div>46</div>
-        <div>47</div>
-        <div>48</div>
-        <div>49</div>
-        <div>50</div>
+        {isLoading ? <p className="loading">Loading...</p> : ""}
+        {imageCollection && imageCollection.length > 0 && (
+          <>
+            {imageCollection.map((image) => (
+              <ImageCard
+                key={image.id}
+                link={image.image}
+                description={image.description}
+                userName={image.userName}
+                userProfilImage={image.userProfilImage}
+                likes={image.likes}
+              />
+            ))}
+          </>
+        )}
+      </div>
+      <div className="pagination">
+        <button className="btn left" disabled={pageNumber === 1}>
+          <FaChevronLeft />
+        </button>
+        <div className="pageCount">{pageNumber}</div>
+        <button className=" btn right">
+          <FaChevronRight />
+        </button>
       </div>
     </div>
   )
