@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Root from "./Root.jsx"
 import { Provider } from "react-redux"
 import store from "./app/store.js"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <App />
+      <ToastContainer />
     </Provider>
   </StrictMode>
 )

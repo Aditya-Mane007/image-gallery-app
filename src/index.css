@@ -158,7 +158,6 @@ p {
 }
 
 .image-collection .image-card {
-  background: var(--WHITE);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,6 +165,13 @@ p {
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  background: var(--WHITE);
+}
+.image-collection .image-card .imageDiv {
+  width: 100%;
+  height: 100%;
+  padding: 1rem 1rem 0.8rem 1rem;
+  border-radius: 5px;
 }
 
 .image-collection .image-card .imageDiv img {

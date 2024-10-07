@@ -5,7 +5,7 @@ const BASE_URL = "https://api.unsplash.com/"
 const getRandomPhoto = async () => {
   const res = await axios.get(
     BASE_URL +
-      `photos/random?page=1&per_page=10&count=30&client_id=${
+      `photos/random?page=1&per_page=10&count=32&client_id=${
         import.meta.env.VITE_ACCESS_KEY
       }`
   )
@@ -32,7 +32,7 @@ const getRandomPhoto = async () => {
 export const getPhotoByCategory = async (category) => {
   const res = await axios.get(
     BASE_URL +
-      `search/photos?query=${category}&page=1&per_page=10&count=30&client_id=${
+      `search/photos?query=${category}&page=1&per_page=12&count=30&client_id=${
         import.meta.env.VITE_ACCESS_KEY
       }`
   )

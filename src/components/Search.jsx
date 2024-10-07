@@ -9,6 +9,8 @@ import {
   reset,
 } from "../features/imageSlice"
 
+import { toast } from "react-toastify"
+
 function Search() {
   const [inputSearch, setInputSearch] = useState("")
   const dispatch = useDispatch()
@@ -28,6 +30,14 @@ function Search() {
   useEffect(() => {
     dispatch(getRandomPhotos())
 
+    if (isSuccess) {
+      toast.success("Image Fetched Successfully")
+    }
+
+    if (isError) {
+      toast.error(message)
+    }
+    
     return () => {
       dispatch(reset())
     }
