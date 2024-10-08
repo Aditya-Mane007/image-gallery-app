@@ -89,6 +89,7 @@ p {
 
 .home .imageGallery {
   width: 50%;
+  height: 25rem;
   position: relative;
   overflow: hidden;
   /* padding: 0 0.5rem; */
@@ -280,7 +281,7 @@ span {
     height: 10rem;
     object-fit: cover;
   } 
-}*/
+} */
 
 @media screen and (max-width: 1020px) and (min-width: 797px) {
   .image-collection {
