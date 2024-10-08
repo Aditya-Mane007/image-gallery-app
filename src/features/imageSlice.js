@@ -30,9 +30,9 @@ export const getRandomPhotos = createAsyncThunk(
 
 export const getPhotosByCategories = createAsyncThunk(
   "image/getCategoryImage",
-  async (category, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await imageService.getPhotoByCategory(category)
+      return await imageService.getPhotoByCategory(data)
     } catch (error) {
       const message =
         (error.response &&

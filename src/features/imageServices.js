@@ -29,12 +29,12 @@ const getRandomPhoto = async () => {
   return jsonData
 }
 
-export const getPhotoByCategory = async (category) => {
+export const getPhotoByCategory = async (formData) => {
   const res = await axios.get(
     BASE_URL +
-      `search/photos?query=${category}&page=1&per_page=12&count=30&client_id=${
-        import.meta.env.VITE_ACCESS_KEY
-      }`
+      `search/photos?query=${formData.category}&page=${
+        formData.page
+      }&per_page=12&count=30&client_id=${import.meta.env.VITE_ACCESS_KEY}`
   )
 
   const data = await res.data.results

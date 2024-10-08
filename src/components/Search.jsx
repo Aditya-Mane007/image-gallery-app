@@ -4,6 +4,8 @@ import { FaChevronLeft } from "react-icons/fa6"
 import { FaChevronRight } from "react-icons/fa6"
 import { useDispatch, useSelector } from "react-redux"
 import {
+  backward,
+  forward,
   getPhotosByCategories,
   getRandomPhotos,
   reset,
@@ -13,6 +15,8 @@ import { toast } from "react-toastify"
 
 function Search() {
   const [inputSearch, setInputSearch] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("")
+  const [displayBtn, setDisplayBtn] = useState(false)
   const dispatch = useDispatch()
   const {
     imageCollection,
@@ -25,10 +29,31 @@ function Search() {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(getPhotosByCategories(inputSearch))
+    setSelectedCategory(inputSearch)
+
+    const data = {
+      category: selectedCategory,
+      page: pageNumber,
+    }
+    dispatch(getPhotosByCategories(data))
+
+    setInputSearch("")
+    setDisplayBtn(true)
   }
+
   useEffect(() => {
-    dispatch(getRandomPhotos())
+    const data = {
+      category: selectedCategory,
+      page: pageNumber,
+    }
+    dispatch(getPhotosByCategories(data))
+  }, [pageNumber])
+
+  useEffect(() => {
+    const data = {
+      page: pageNumber,
+    }
+    dispatch(getRandomPhotos(data))
 
     if (isSuccess) {
       toast.success("Image Fetched Successfully")
@@ -37,11 +62,23 @@ function Search() {
     if (isError) {
       toast.error(message)
     }
-    
+
+    setSelectedCategory("")
     return () => {
       dispatch(reset())
     }
   }, [])
+
+  const categoryHandler = (value) => {
+    setSelectedCategory(value)
+    setDisplayBtn(true)
+
+    const data = {
+      category: selectedCategory,
+      page: pageNumber,
+    }
+    dispatch(getPhotosByCategories(data))
+  }
   return (
     <div className="searchDiv">
       <form className="formDiv" onSubmit={submitHandler}>
@@ -53,28 +90,16 @@ function Search() {
         />
       </form>
       <div className="catgories-btn">
-        <button
-          className="btn"
-          onClick={() => dispatch(getPhotosByCategories("Mountain"))}
-        >
+        <button className="btn" onClick={() => categoryHandler("Mountain")}>
           Mountain
         </button>
-        <button
-          className="btn"
-          onClick={() => dispatch(getPhotosByCategories("Beaches"))}
-        >
+        <button className="btn" onClick={() => categoryHandler("Beaches")}>
           Beaches
         </button>
-        <button
-          className="btn"
-          onClick={() => dispatch(getPhotosByCategories("Birds"))}
-        >
+        <button className="btn" onClick={() => categoryHandler("Birds")}>
           Birds
         </button>
-        <button
-          className="btn"
-          onClick={() => dispatch(getPhotosByCategories("Food"))}
-        >
+        <button className="btn" onClick={() => categoryHandler("Food")}>
           Food
         </button>
       </div>
@@ -95,15 +120,21 @@ function Search() {
           </>
         )}
       </div>
-      <div className="pagination">
-        <button className="btn left" disabled={pageNumber === 1}>
-          <FaChevronLeft />
-        </button>
-        <div className="pageCount">{pageNumber}</div>
-        <button className=" btn right">
-          <FaChevronRight />
-        </button>
-      </div>
+      {displayBtn && (
+        <div className="pagination">
+          <button
+            className="left btn"
+            disabled={pageNumber === 1 ? true : false}
+            onClick={() => dispatch(backward())}
+          >
+            <FaChevronLeft />
+          </button>
+          <div className="pageCount">{pageNumber}</div>
+          <button className="right btn" onClick={() => dispatch(forward())}>
+            <FaChevronRight />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
