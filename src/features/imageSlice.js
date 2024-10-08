@@ -56,6 +56,9 @@ export const imageSlice = createSlice({
       state.isError = false
       state.message = ""
     },
+    resetPage: (state) => {
+      state.pageNumber = 1
+    },
     forward: (state) => {
       state.pageNumber = state.pageNumber + 1
     },
@@ -98,5 +101,5 @@ export const imageSlice = createSlice({
   },
 })
 
-export const { reset, forward, backward } = imageSlice.actions
+export const { reset, resetPage, forward, backward } = imageSlice.actions
 export default imageSlice.reducer

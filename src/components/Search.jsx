@@ -9,14 +9,14 @@ import {
   getPhotosByCategories,
   getRandomPhotos,
   reset,
+  resetPage,
 } from "../features/imageSlice"
 
 import { toast } from "react-toastify"
 
 function Search() {
   const [inputSearch, setInputSearch] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("")
-  const [displayBtn, setDisplayBtn] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState("Mountain")
   const dispatch = useDispatch()
   const {
     imageCollection,
@@ -30,15 +30,15 @@ function Search() {
   const submitHandler = (e) => {
     e.preventDefault()
     setSelectedCategory(inputSearch)
+    dispatch(resetPage())
 
     const data = {
-      category: selectedCategory,
+      category: inputSearch,
       page: pageNumber,
     }
     dispatch(getPhotosByCategories(data))
 
     setInputSearch("")
-    setDisplayBtn(true)
   }
 
   useEffect(() => {
@@ -47,13 +47,6 @@ function Search() {
       page: pageNumber,
     }
     dispatch(getPhotosByCategories(data))
-  }, [pageNumber])
-
-  useEffect(() => {
-    const data = {
-      page: pageNumber,
-    }
-    dispatch(getRandomPhotos(data))
 
     if (isSuccess) {
       toast.success("Image Fetched Successfully")
@@ -62,23 +55,22 @@ function Search() {
     if (isError) {
       toast.error(message)
     }
-
-    setSelectedCategory("")
     return () => {
       dispatch(reset())
     }
-  }, [])
+  }, [pageNumber])
 
   const categoryHandler = (value) => {
     setSelectedCategory(value)
-    setDisplayBtn(true)
+    dispatch(resetPage())
 
     const data = {
-      category: selectedCategory,
+      category: value,
       page: pageNumber,
     }
     dispatch(getPhotosByCategories(data))
   }
+
   return (
     <div className="searchDiv">
       <form className="formDiv" onSubmit={submitHandler}>
@@ -120,21 +112,20 @@ function Search() {
           </>
         )}
       </div>
-      {displayBtn && (
-        <div className="pagination">
-          <button
-            className="left btn"
-            disabled={pageNumber === 1 ? true : false}
-            onClick={() => dispatch(backward())}
-          >
-            <FaChevronLeft />
-          </button>
-          <div className="pageCount">{pageNumber}</div>
-          <button className="right btn" onClick={() => dispatch(forward())}>
-            <FaChevronRight />
-          </button>
-        </div>
-      )}
+
+      <div className="pagination">
+        <button
+          className="left btn"
+          disabled={pageNumber === 1 ? true : false}
+          onClick={() => dispatch(backward())}
+        >
+          <FaChevronLeft />
+        </button>
+        <div className="pageCount">{pageNumber}</div>
+        <button className="right btn" onClick={() => dispatch(forward())}>
+          <FaChevronRight />
+        </button>
+      </div>
     </div>
   )
 }
